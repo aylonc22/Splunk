@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const mysql = require('mysql2');
 const app = express();
 const port = 3000;
@@ -6,7 +7,7 @@ const port = 3000;
 let intervalPointer = undefined;
 // Parse incoming JSON requests
 app.use(express.json());
-
+app.use(cors());
 // MySQL Database connection
 const db = mysql.createConnection({
   host: 'localhost',   // Change this to your MySQL host (e.g., 'localhost' or a remote server)
