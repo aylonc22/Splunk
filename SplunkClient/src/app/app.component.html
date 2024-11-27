@@ -2,8 +2,8 @@
   <h1>Data Table</h1>
 
   <!-- Buttons to Start and Stop the Data Stream -->
-  <button (click)="startDataStream()">Start Data Stream</button>
-  <button (click)="stopDataStream()">Stop Data Stream</button>
+  <button (click)="startDataStream()" [disabled]="isStreamRunning">Start Data Stream</button>
+  <button (click)="stopDataStream()" [disabled]="!isStreamRunning">Stop Data Stream</button>
 
   <!-- Table to Display Fetched Data -->
   <table class="table table-bordered">
@@ -15,8 +15,8 @@
     </thead>
     <tbody>
       <tr *ngFor="let item of data">
-        <td>{{ item.timestamp }}</td>
         <td>{{ item.number }}</td>
+        <td>{{ formatTimestamp(item.timestamp)}}</td>
       </tr>
     </tbody>
   </table>
