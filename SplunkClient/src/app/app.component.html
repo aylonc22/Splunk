@@ -9,13 +9,13 @@
   <table class="table table-bordered">
     <thead>
       <tr>
-        <th>Timestamp</th>
         <th>Number</th>
+        <th>Timestamp</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let item of data">
-        <td>{{ item.number }}</td>
+        <td>{{ item.id }}</td>
         <td>{{ formatTimestamp(item.timestamp)}}</td>
       </tr>
     </tbody>
