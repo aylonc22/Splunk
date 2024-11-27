@@ -1,6 +1,14 @@
 const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql2');
+const morgan = require('morgan');
+const fs = require('fs');
+const path = require('path');
+
+// Create a write stream (append mode)
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'w' });
+
+// Use morgan to log requests to the file
 const app = express();
 const port = 3000;
 //Interval pointer
@@ -8,6 +16,7 @@ let intervalPointer = undefined;
 // Parse incoming JSON requests
 app.use(express.json());
 app.use(cors());
+app.use(morgan('combined', { stream: accessLogStream }));
 // MySQL Database connection
 const db = mysql.createConnection({
   host: 'localhost',   // Change this to your MySQL host (e.g., 'localhost' or a remote server)
