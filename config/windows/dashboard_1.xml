@@ -1,0 +1,163 @@
+{
+    "visualizations": {
+        "viz_UKVS2GBS": {
+            "type": "splunk.singlevalue",
+            "dataSources": {
+                "primary": "ds_99Syj3Xe"
+            },
+            "title": "Free Disk Space for C:"
+        },
+        "viz_uSimM7AX": {
+            "type": "splunk.singlevalue",
+            "dataSources": {
+                "primary": "ds_QqLhxFPQ"
+            },
+            "title": "Free RAM (MB)"
+        },
+        "viz_UPzWfJ8x": {
+            "type": "splunk.singlevalue",
+            "dataSources": {
+                "primary": "ds_kUxluUgZ"
+            },
+            "title": "Critical events"
+        },
+        "viz_pSis0JM2": {
+            "type": "splunk.bar",
+            "dataSources": {
+                "primary": "ds_NwPbh8NJ"
+            },
+            "title": "Requests by HTTP Status Code"
+        },
+        "viz_Dhx5Unkz": {
+            "type": "splunk.table",
+            "dataSources": {
+                "primary": "ds_VuUX180P"
+            },
+            "title": "test table data"
+        }
+    },
+    "dataSources": {
+        "ds_99Syj3Xe": {
+            "type": "ds.chain",
+            "options": {
+                "query": "index=main sourcetype=perfmon_logical_disk instance=\"C:\"\r\n| stats latest(%_Free_Space) as \"Free Disk Space (%)\" by instance\r\n"
+            },
+            "name": "Search_1"
+        },
+        "ds_QqLhxFPQ": {
+            "type": "ds.search",
+            "options": {
+                "query": "index=main sourcetype=perfmon_memory \r\n| stats latest(Available_MBytes) as \"Free RAM (MB)\"\r\n"
+            },
+            "name": "Search_2"
+        },
+        "ds_kUxluUgZ": {
+            "type": "ds.search",
+            "options": {
+                "query": "index=main (source=\"WinEventLog:Application\" OR source=\"WinEventLog:System\") severity=\"Critical\"\r\n| stats count\r\n"
+            },
+            "name": "Search_3"
+        },
+        "ds_NwPbh8NJ": {
+            "type": "ds.search",
+            "options": {
+                "query": "index=main sourcetype=access_combined\r\n| stats count by status\r\n| sort - count\r\n"
+            },
+            "name": "Search_4"
+        },
+        "ds_VuUX180P": {
+            "type": "ds.search",
+            "options": {
+                "query": "index=main source=test sourcetype=csv\r\n| rex field=_raw \"id=\\\"(?<id>\\d+)\\\"\"\r\n| rex field=_raw \"timestamp=\\\"(?<timestamp>[^\\\"]+)\\\"\"\r\n| table id, timestamp\r\n| sort - timestamp\r\n| head 10\r\n"
+            },
+            "name": "Search_5"
+        }
+    },
+    "defaults": {
+        "dataSources": {
+            "ds.search": {
+                "options": {
+                    "queryParameters": {
+                        "latest": "$global_time.latest$",
+                        "earliest": "$global_time.earliest$"
+                    }
+                }
+            }
+        }
+    },
+    "inputs": {
+        "input_global_trp": {
+            "type": "input.timerange",
+            "options": {
+                "token": "global_time",
+                "defaultValue": "-24h@h,now"
+            },
+            "title": "Global Time Range"
+        }
+    },
+    "layout": {
+        "type": "absolute",
+        "options": {
+            "width": 1440,
+            "height": 960,
+            "display": "auto"
+        },
+        "structure": [
+            {
+                "item": "viz_UKVS2GBS",
+                "type": "block",
+                "position": {
+                    "x": 0,
+                    "y": 0,
+                    "w": 190,
+                    "h": 160
+                }
+            },
+            {
+                "item": "viz_uSimM7AX",
+                "type": "block",
+                "position": {
+                    "x": 260,
+                    "y": 0,
+                    "w": 250,
+                    "h": 150
+                }
+            },
+            {
+                "item": "viz_UPzWfJ8x",
+                "type": "block",
+                "position": {
+                    "x": 640,
+                    "y": 0,
+                    "w": 250,
+                    "h": 180
+                }
+            },
+            {
+                "item": "viz_pSis0JM2",
+                "type": "block",
+                "position": {
+                    "x": 50,
+                    "y": 190,
+                    "w": 300,
+                    "h": 300
+                }
+            },
+            {
+                "item": "viz_Dhx5Unkz",
+                "type": "block",
+                "position": {
+                    "x": 440,
+                    "y": 190,
+                    "w": 670,
+                    "h": 290
+                }
+            }
+        ],
+        "globalInputs": [
+            "input_global_trp"
+        ]
+    },
+    "description": "",
+    "title": "Dashboard_1"
+}
