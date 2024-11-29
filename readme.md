@@ -98,7 +98,7 @@ Alerts will notify you via email when the conditions are met, based on the thres
 ## Technologies Used
 
 - **Frontend**: Angular
-- **Backend**: Node.js, Express
+- **Backend**: Node.js, Express,Morgan (for http logs)
 - **Database**: MySQL
 - **Monitoring and Log Aggregation**: Splunk
   - Splunk Universal Forwarder (for Linux)
