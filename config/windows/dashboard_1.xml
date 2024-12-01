@@ -38,37 +38,49 @@
     },
     "dataSources": {
         "ds_99Syj3Xe": {
-            "type": "ds.chain",
+            "type": "ds.search",
             "options": {
-                "query": "index=main sourcetype=perfmon_logical_disk instance=\"C:\"\r\n| stats latest(%_Free_Space) as \"Free Disk Space (%)\" by instance\r\n"
+                "query": "| datamodel \"PerformanceMetrics\" DiskUsage "
+                          "| stats latest(FreeDiskSpace) as \"Free Disk Space (%)\" by host"
             },
             "name": "Search_1"
         },
         "ds_QqLhxFPQ": {
             "type": "ds.search",
             "options": {
-                "query": "index=main sourcetype=perfmon_memory \r\n| stats latest(Available_MBytes) as \"Free RAM (MB)\"\r\n"
+                "query": "| datamodel \"PerformanceMetrics\" MemoryUsage "
+                          "| stats latest(AvailableMemory) as \"Free RAM (MB)\" by host"
             },
             "name": "Search_2"
         },
         "ds_kUxluUgZ": {
             "type": "ds.search",
             "options": {
-                "query": "index=main (source=\"WinEventLog:Application\" OR source=\"WinEventLog:System\") severity=\"Critical\"\r\n| stats count\r\n"
+                "query": "| datamodel \"WindowsEventLogs\" EventLog "
+                          "| search (source=\"WinEventLog:Application\" OR source=\"WinEventLog:System\") "
+                          "| search severity=\"Critical\" "
+                          "| stats count as \"Critical Events\" by host"
             },
             "name": "Search_3"
         },
         "ds_NwPbh8NJ": {
             "type": "ds.search",
             "options": {
-                "query": "index=main sourcetype=access_combined\r\n| stats count by status\r\n| sort - count\r\n"
+                "query": "index=main sourcetype=access_combined "
+                          "| stats count by status "
+                          "| sort - count"
             },
             "name": "Search_4"
         },
         "ds_VuUX180P": {
             "type": "ds.search",
             "options": {
-                "query": "index=main source=test sourcetype=csv\r\n| rex field=_raw \"id=\\\"(?<id>\\d+)\\\"\"\r\n| rex field=_raw \"timestamp=\\\"(?<timestamp>[^\\\"]+)\\\"\"\r\n| table id, timestamp\r\n| sort - timestamp\r\n| head 10\r\n"
+                "query": "index=main source=test sourcetype=csv "
+                          "| rex field=_raw \"id=\\\"(?<id>\\d+)\\\"\" "
+                          "| rex field=_raw \"timestamp=\\\"(?<timestamp>[^\\\"]+)\\\"\" "
+                          "| table id, timestamp "
+                          "| sort - timestamp "
+                          "| head 10"
             },
             "name": "Search_5"
         }

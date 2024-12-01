@@ -13,22 +13,36 @@
                 "primary": "ds_GICxRC9c"
             },
             "title": "Free RAM"
+        },
+        "viz_ZXl821ff": {
+            "type": "splunk.singlevalue",
+            "options": {},
+            "dataSources": {
+                "primary": "ds_NjjkBqEQ"
+            }
         }
     },
     "dataSources": {
         "ds_mUkrbMLH": {
             "type": "ds.search",
             "options": {
-                "query": "index=linux sourcetype=system_metrics host=\"aylonc\" | stats latest(disk_space) as \"Free Disk Space\"\r\n"
+                "query": "| datamodel \"System Metrics\" SystemMetrics search | stats latest(disk_space) as \"Free Disk Space\" by host"
             },
             "name": "Search_1"
         },
         "ds_GICxRC9c": {
             "type": "ds.search",
             "options": {
-                "query": "index=linux sourcetype=system_metrics host=\"aylonc\" | stats latest(ram_free) as \"Free RAM (MB)\"\r\n"
+                "query": "| datamodel \"System Metrics\" SystemMetrics search | stats latest(ram_free) as \"Free RAM (MB)\" by host"
             },
             "name": "Search_2"
+        },
+        "ds_NjjkBqEQ": {
+            "type": "ds.search",
+            "options": {
+                "query": "| datamodel \"Network Activity\" NetworkTraffic search | search host=\"aylonc\" | stats count as critical_events"
+            },
+            "name": "Search_3"
         }
     },
     "defaults": {
@@ -77,6 +91,16 @@
                 "position": {
                     "x": 440,
                     "y": 0,
+                    "w": 250,
+                    "h": 250
+                }
+            },
+            {
+                "item": "viz_ZXl821ff",
+                "type": "block",
+                "position": {
+                    "x": 840,
+                    "y": 10,
                     "w": 250,
                     "h": 250
                 }
