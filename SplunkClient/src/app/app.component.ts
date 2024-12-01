@@ -31,8 +31,7 @@ export class AppComponent {
   }
 
   startDataStream(): void {   
-    this.apiService.start(this.newNumber).subscribe(() => {
-      console.log('here');
+    this.apiService.start(this.newNumber).subscribe(() => {      
       this.getData(); 
     });
 
