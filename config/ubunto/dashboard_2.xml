@@ -19,7 +19,8 @@
             "options": {},
             "dataSources": {
                 "primary": "ds_NjjkBqEQ"
-            }
+            },
+            "title": "Critical events"
         }
     },
     "dataSources": {
