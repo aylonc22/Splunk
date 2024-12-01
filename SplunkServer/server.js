@@ -19,10 +19,10 @@ app.use(cors());
 app.use(morgan('combined', { stream: accessLogStream }));
 // MySQL Database connection
 const db = mysql.createConnection({
-  host: 'localhost',   // Change this to your MySQL host (e.g., 'localhost' or a remote server)
-  user: 'root',        // Your MySQL username
-  password: '12345678',        // Your MySQL password
-  database: 'splunk'   // The name of the database you're using
+  host: process.env.DB_HOST || 'localhost',  
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || '12345678',
+    database: process.env.DB_NAME || 'splunk'    
 });
 
 // Connect to the MySQL database
