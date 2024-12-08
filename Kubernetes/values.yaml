@@ -1,0 +1,28 @@
+splunk:
+  hec:
+    token: "YOUR_SPLUNK_HEC_TOKEN"  # Replace with your actual Splunk HEC token
+    endpoint: "https://splunk-hec-url:8088"  # Replace with your Splunk HEC endpoint
+    index: "kubernetes_metrics"  # The Splunk index where metrics will be sent
+    sourcetype: "_json"  # Optional sourcetype for your metrics, can use custom value
+
+inputs:
+  kubernetes:
+    metrics:
+      enabled: true  # Enable collection of Kubernetes metrics
+      path: /metrics  # Path to access metrics on the Kubernetes nodes and containers
+
+fluentd:
+  enabled: true  # Enable Fluentd to collect and forward logs to Splunk
+  forward:
+    host: "localhost"  # Replace with your Splunk instance's hostname or IP address
+    port: 8088  # Port for HEC endpoint
+    hec_token: "YOUR_SPLUNK_HEC_TOKEN"  # Use the same HEC token for log forwarding
+    hec_index: "k8s-logs"  # The index for logs in Splunk
+    hec_sourcetype: "_json"  # Optional sourcetype for logs
+
+  # Optional: Tail Kubernetes container logs
+  inputs:
+    kubernetes:
+      logs:
+        enabled: true  # Enable log collection from Kubernetes containers
+        path: "/var/log/containers/*.log"  # Path to container log files      
