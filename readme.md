@@ -1,6 +1,6 @@
 # Web Application and Splunk Integration Project
 
-This project involves the development of a web application using Angular (frontend) and Node.js (backend) with integration to Splunk for system monitoring, logs ingestion, and alert configuration. The project is divided into two parts: **Windows Environment** and **Linux Environment**.
+This project involves the development of a web application using Angular (frontend) and Node.js (backend) with integration to Splunk for system monitoring, logs ingestion, and alert configuration. The project is divided into three parts: **Windows Environment**, **Linux Environment**, and **Kubernetes Cluster Environment**.
 
 ## Table of Contents
 - [Part 1: Windows Environment](#part-1-windows-environment)
@@ -11,14 +11,17 @@ This project involves the development of a web application using Angular (fronte
   - [VM Setup](#vm-setup)
   - [Dashboard_2 in Splunk](#dashboard-2-in-splunk)
   - [Alert Configuration](#alert-configuration-1)
+- [Part 3: Kubernetes Cluster Environment](#part-3-kubernetes-cluster-environment)
+  - [Kubernetes Setup](#kubernetes-setup)
+  - [Dashboard_3 in Splunk](#dashboard-3-in-splunk)
 - [Technologies Used](#technologies-used)
 - [Installation](#installation)
   - [Windows Environment](#windows-environment)
   - [Linux Environment](#linux-environment)
+  - [Kubernetes Environment](#kubernetes-environment)
 - [Usage](#usage)
   - [Web Application](#web-application)
   - [Splunk Dashboards](#splunk-dashboards)
-  - [Alerts](#alerts)
 
 ## Part 1: Windows Environment
 
@@ -95,14 +98,45 @@ Set up alerts for critical Linux system metrics in Splunk, including:
 
 Alerts will notify you via email when the conditions are met, based on the thresholds defined.
 
+## Part 3: Kubernetes Cluster Environment
+
+### Kubernetes Setup
+
+1. **Set up a Kubernetes cluster** using **Minikube** or any other Kubernetes setup (e.g., EKS, GKE, or a self-managed Kubernetes cluster).
+2. **Install the Splunk Universal Forwarder or use the Splunk HTTP Event Collector (HEC)** to collect logs and metrics from Kubernetes nodes and containers.
+
+3. **Metrics Collection**:
+   - Use **Prometheus** to collect Kubernetes metrics such as pod restarts, CPU, and memory usage.
+   - Configure the **Splunk Connect for Kubernetes** to send metrics and logs to Splunk.
+
+4. **Kubernetes Metrics Collection**:
+   - Enable **metrics-server** in Kubernetes to gather CPU and memory metrics.
+   - Configure the **Splunk Kubernetes Connector** to send these metrics to Splunk, which will be visualized in dashboards.
+
+### Dashboard_3 in Splunk
+
+The dashboard in Splunk (Dashboard_3) will display:
+
+1. **Kubernetes Cluster Metrics**:
+   - Pod restarts, CPU usage, memory usage, and container health.
+   
+2. **Application Logs from Kubernetes Pods**:
+   - Collect logs from Kubernetes applications running in the cluster.
+   - Use **Splunk Connect for Kubernetes** to send logs to Splunk in real-time.
+
+3. **Kubernetes Cluster Health**:
+   - Monitor cluster health metrics such as node status and pod readiness.
+
 ## Technologies Used
 
 - **Frontend**: Angular
-- **Backend**: Node.js, Express,Morgan (for http logs)
+- **Backend**: Node.js, Express, Morgan (for HTTP logs)
 - **Database**: MySQL
 - **Monitoring and Log Aggregation**: Splunk
-  - Splunk Universal Forwarder (for Linux)
+  - Splunk Universal Forwarder (for Linux and Kubernetes)
+  - Splunk HTTP Event Collector (HEC for Kubernetes)
   - Splunk DB Connect (for MySQL integration)
+- **Metrics Collection**: Prometheus, Metrics Server, Splunk Connect for Kubernetes
 - **Alerts and Dashboards**: Splunk Alerts, Splunk Dashboards
 
 ## Installation
@@ -143,6 +177,19 @@ Alerts will notify you via email when the conditions are met, based on the thres
 4. **Set up Alerts for Linux Metrics**:
    - Configure alerts in Splunk for critical system conditions on the Linux VM (e.g., low disk space, high memory usage).
 
+### Kubernetes Environment
+
+1. **Set up Kubernetes Cluster**:
+   - Use **Minikube**, **GKE**, **EKS**, or **self-managed Kubernetes**.
+   - Install **Splunk Connect for Kubernetes** and **Prometheus** to collect logs and metrics.
+   - Configure Splunk HEC to receive logs from Kubernetes applications.
+
+2. **Install Splunk Connect for Kubernetes**:
+   - Deploy the Splunk Connect for Kubernetes in your Kubernetes cluster to forward logs and metrics.
+
+3. **Set up Kubernetes Dashboards**:
+   - Create a dashboard in Splunk to monitor Kubernetes cluster metrics, pod restarts, and application logs.
+
 ## Usage
 
 ### Web Application
@@ -164,6 +211,9 @@ Alerts will notify you via email when the conditions are met, based on the thres
    - View system metrics for the Linux environment (disk space, memory).
    - Monitor critical syslog errors based on severity levels.
 
+3. **Dashboard 3 (Kubernetes)**:
+   - View Kubernetes cluster health metrics, application logs, pod restarts, CPU, and memory usage.
+
 ### Alerts
 
 1. **Windows Alerts**:
@@ -171,5 +221,4 @@ Alerts will notify you via email when the conditions are met, based on the thres
 
 2. **Linux Alerts**:
    - Receive alerts for low disk space and high memory usage on the Linux environment.
-
 
